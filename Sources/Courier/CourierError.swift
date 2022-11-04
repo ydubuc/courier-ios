@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct CourierError: Error {
-    let code: Int?
-    let message: String
-    let data: Data?
-    let error: Error?
+public struct CourierError: Error {
+    public let code: Int?
+    public let message: String
+    public let data: Data?
+    public let error: Error?
     
     init(_ message: String, _ data: Data? = nil, _ error: Error? = nil, _ code: Int? = nil) {
         self.code = code
@@ -22,5 +22,5 @@ struct CourierError: Error {
 }
 
 extension CourierError: LocalizedError {
-    var errorDescription: String? { return message }
+    public var errorDescription: String? { return message }
 }
