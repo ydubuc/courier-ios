@@ -49,6 +49,10 @@ public struct Courier {
                     return handleCompletion(nil, CourierError("An error occurred.", httpRes.statusCode, data, error))
                 }
             }
+            
+            if let error = error as? URLError {
+                return handleCompletion(nil, CourierError(error.localizedDescription, error.errorCode, data, error))
+            }
 
             guard error == nil, let data = data, !data.isEmpty
             else {
