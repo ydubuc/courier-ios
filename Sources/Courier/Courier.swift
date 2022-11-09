@@ -46,7 +46,7 @@ public struct Courier {
             if let httpRes = res as? HTTPURLResponse {
                 guard (200...299).contains(httpRes.statusCode)
                 else {
-                    return handleCompletion(nil, CourierError("An error occurred.", data, error, httpRes.statusCode))
+                    return handleCompletion(nil, CourierError("An error occurred.", httpRes.statusCode, data, error))
                 }
             }
 
@@ -91,7 +91,7 @@ public struct Courier {
             if let httpRes = res as? HTTPURLResponse {
                 guard (200...299).contains(httpRes.statusCode)
                 else {
-                    return handleCompletion(nil, CourierError("An error occurred.", data, error, httpRes.statusCode))
+                    return handleCompletion(nil, CourierError("An error occurred.", httpRes.statusCode, data, error))
                 }
             }
 
@@ -136,7 +136,7 @@ public struct Courier {
             if let httpRes = res as? HTTPURLResponse {
                 guard (200...299).contains(httpRes.statusCode)
                 else {
-                    return handleCompletion(nil, CourierError("An error occurred.", data, error, httpRes.statusCode))
+                    return handleCompletion(nil, CourierError("An error occurred.", httpRes.statusCode, data, error))
                 }
             }
 
@@ -181,7 +181,7 @@ public struct Courier {
             if let httpRes = res as? HTTPURLResponse {
                 guard (200...299).contains(httpRes.statusCode)
                 else {
-                    return handleCompletion(nil, CourierError("An error occurred.", data, error, httpRes.statusCode))
+                    return handleCompletion(nil, CourierError("An error occurred.", httpRes.statusCode, data, error))
                 }
             }
 
@@ -224,7 +224,7 @@ public struct Courier {
             if let httpRes = res as? HTTPURLResponse {
                 guard (200...299).contains(httpRes.statusCode)
                 else {
-                    return handleCompletion(CourierError("An error occurred.", data, error, httpRes.statusCode))
+                    return handleCompletion(CourierError("An error occurred.", httpRes.statusCode, data, error))
                 }
             }
 
@@ -241,7 +241,7 @@ public struct Courier {
         guard let path = safePath(path),
               let url = URL(string: url + (queries != nil ? pathifyQueries(path, queries!) : path))
         else {
-            throw CourierError("Invalid URL.")
+            throw CourierError("Invalid URL.", 404)
         }
         
         var request = URLRequest(url: url)
@@ -261,7 +261,7 @@ public struct Courier {
         guard let path = safePath(path),
               let url = URL(string: url + path)
         else {
-            throw CourierError("Invalid URL.")
+            throw CourierError("Invalid URL.", 404)
         }
         
         var request = URLRequest(url: url)
@@ -305,6 +305,7 @@ public struct Courier {
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = TimeInterval(30)
         config.timeoutIntervalForResource = TimeInterval(30)
+        
         return config
     }
 }
